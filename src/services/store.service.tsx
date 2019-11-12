@@ -1,45 +1,38 @@
-import React from 'react';
+const Store = {
 
-interface Props {
-}
+    users: [
+        {
+            id: '1',
+            name: 'Pasha',
+            secondName: "Zagorski",
+            lastName: 'Nikolaevich',
+            email: 'mail1@gmail.com',
+            phone: '6222770',
+            gender: 'm',
+            address: 'Grodno'
+        },
+        {
+            id: '2',
+            name: 'Masha',
+            secondName: "Kraynaya",
+            lastName: 'Viktorovna',
+            email: 'mail2n@gmail.com',
+            phone: '6221223131',
+            gender: 'f',
+            address: 'Minsk'
+        }
+    ],
 
-interface State {
-    users: object[],
-    id: string,
-    name: string,
-    secondName: string,
-    lastName: string,
-    email: string,
-    phone: string,
-    gender: string,
-    address: string,
-}
+    user: {
+        id: '',
+        name: '',
+        secondName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        gender: '',
+        address: '',
+    },
+};
 
-class Store extends React.Component<Props, State> {
-
-    constructor(props?: any) {
-        super(props);
-        this.state = {
-            users: [],
-            id: '',
-            name: '',
-            secondName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            gender: '',
-            address: '',
-        };
-    }
-    changeState = (param: string, value: any) => {
-        this.setState({
-                ...this.state,
-                [param]: value
-            }
-        );
-        console.log(this.state);
-    }
-
-}
-
-export default new Store ();
+export default Store;

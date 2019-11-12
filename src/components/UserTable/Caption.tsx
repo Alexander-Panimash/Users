@@ -1,5 +1,7 @@
 import React from 'react';
 import Button from "../Button";
+import {Link} from "react-router-dom";
+
 
 const Caption: React.FC = () => {
     return (
@@ -7,7 +9,9 @@ const Caption: React.FC = () => {
             <div className="col-10 item">
                 <h2 className="text-center p-3">Список пользователей </h2>
             </div>
-            <Button name={"Добавить пользователя"} link={"/AddUser"} styleType={"primary"} style={"btn-sm p-2"}/>
+            <Link to='/AddUser'>
+                <Button name={"Добавить пользователя"} styleType={"primary"} style={"btn-sm p-2"}/>
+            </Link>
         </div>
     );
 };

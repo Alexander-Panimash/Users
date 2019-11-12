@@ -1,23 +1,33 @@
-import React, {FunctionComponent} from 'react';
+import React from 'react';
 import Button from '../Button';
 import IUser from "../IUser";
-import HTTPService from '../../services/http.service'
+import {Link} from "react-router-dom";
 
 interface IRowProps {
     values: IUser,
-    index: number,
+    getData: any,
+    deleteUser: any
 }
 
 const TableRow: React.FC<IRowProps> = (props: IRowProps) => {
     return (
         <tr>
-            <td className="text-center align-middle col-12">{props.index}</td>
+            <td className="text-center align-middle col-12">{props.values.id}</td>
             <td className="text-center align-middle col-12">{props.values.name}</td>
             <td className="text-center align-middle col-12">{props.values.email}</td>
             <td className="text-center align-middle col-12">
-                <Button name={'Просмотреть'} link={'/id'} styleType={'success'} style={'btn-block border  '}/>
-                <Button name={'Изменить'} link={'/AddUser'} styleType={'info'} style={'btn-block border '}/>
-                <Button function={HTTPService.deleteFromDB(props.values.name)} name={'Удалить'} link={'/'} styleType={'danger'} style={'btn-block border '}/>
+                <Link to={`/user/${props.values.id}`} className='text-decoration-none'
+                      onClick={() => props.getData(props.values)}>
+                    <Button name={`Просмотреть`} styleType={'success'}
+                            style={'btn-block border'}/>
+                </Link>
+                <Link to='/redactUser' className='text-decoration-none' onClick={() => props.getData(props.values)}>
+                    <Button name={'Изменить'} styleType={'info'} style={'btn-block border '}/>
+                </Link>
+                <Link to='/' className='text-decoration-none' onClick={() => props.deleteUser(props.values.id)}>
+                    <Button name={'Удалить'} styleType={'danger'}
+                            style={'btn-block border '}/>
+                </Link>
             </td>
         </tr>
     );

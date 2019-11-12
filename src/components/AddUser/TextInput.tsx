@@ -6,23 +6,27 @@ interface IInput {
     styles?: string,
     value?: any,
     onChange?: any,
-    stateName?: string,
+    storeName?: string,
     disabled?: boolean
+    defaultValue?: any
 }
 
 const TextInput: React.FC<IInput> = (props: IInput) => {
     const textInput = createRef<HTMLInputElement>();
-    function onChange (){
-        if (textInput.current !== null){
-            props.onChange(props.stateName,textInput.current.value);
+
+    function onChange() {
+        if (textInput.current !== null) {
+            props.onChange(props.storeName, textInput.current.value);
         }
     }
 
     return (
-        <div  className={`${props.styles? props.styles:'col-md-4 mb-3'} `}>
+        <div className={`${props.styles ? props.styles : 'col-md-4 mb-3'} `}>
             <label>{props.name}</label>
-            <input ref={textInput} type='text' className="form-control" placeholder={props.placeholder}
-                   required value={props.value} onChange={onChange} disabled={props.disabled}/>
+            <input defaultValue={props.defaultValue} ref={textInput} type='text' className="form-control"
+                   placeholder={props.placeholder}
+                   required value={props.value} onChange={onChange} disabled={props.disabled}
+            />
         </div>)
 
 };

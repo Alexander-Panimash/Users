@@ -10,7 +10,7 @@ const TableHead: React.FC<IHeadProps> = (props: IHeadProps) => {
         <tr>
             {props.headers.map((item) => {
                 return (
-                    <th key={Math.random()} className="text-center">{item}</th>)
+                    <th key={Math.random()} className="text-center">{item} </th>)
             })}
             <th className="text-center">Редактирование</th>
         </tr>

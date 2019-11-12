@@ -6,20 +6,21 @@ import IUser from "../IUser";
 interface TableProps {
     values: IUser[],
     headers: string [],
+    getData: any,
+    deleteUser: any
 }
 
 const Table: React.FC<TableProps> = (props: TableProps) => {
-
     return (
         <div className='table-responsive text-nowrap '>
             <table className="table table-hover table-fixed table-bordered">
                 <thead className='thead-light'>
-                    <TableHead headers={props.headers}/>
+                <TableHead headers={props.headers}/>
                 </thead>
                 <tbody>
-                    {props.values.map((item, index) => {
-                        return <TableRow values={item} key={Math.random()} index={index} />
-                    })}
+                {props.values.map((item, index) => {
+                    return <TableRow values={item} key={item.id} getData={props.getData} deleteUser={props.deleteUser}/>
+                })}
                 </tbody>
 
             </table>

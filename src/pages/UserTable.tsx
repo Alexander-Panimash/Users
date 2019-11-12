@@ -1,46 +1,57 @@
 import React from 'react';
 import Caption from "../components/UserTable/Caption";
 import Table from "../components/UserTable/Table";
-import IUser from '../components/IUser'
-
-
-const users: IUser[] = [
-    {
-        name: 'Pasha',
-        secondName: "Zagorski",
-        lastName: 'Nikolaevich',
-        email: 'mail1@gmail.com',
-        phone: '6222770',
-        gender: 'm',
-        address: 'HRODNA'
-    },
-    {
-        name: 'Anton',
-        secondName: "Pavlov",
-        lastName: 'Igorevich',
-        email: 'mail2n@gmail.com',
-        phone: '6221223131',
-        gender: 'm',
-        address: 'HRODNA'
-    }
-];
+import Store from "../services/store.service";
+import IUser from "../components/IUser";
+import HttpService from '../services/http.service'
 
 const headers: string[] = [
     'id',
-    'name',
+    'Имя',
     'email',
 ];
 
+function deleteUser(idToDelete: string) {
+    HttpService.delete(`/${idToDelete}`)
+        .then(res => {
+            console.log(res);
+        });
+}
 
-const UserTable: React.FC = () => {
-    return (
-        <div className="container">
-            <Caption/>
-            <Table headers={headers} values={users}>
-            </Table>
-        </div>
-    )
-};
+
+function getUserData(data: IUser) {
+    let {id, name, secondName, lastName, email, phone, gender, address} = data;
+    Store.user.name = name;
+    Store.user.id = id;
+    Store.user.secondName = secondName;
+    Store.user.lastName = lastName;
+    Store.user.email = email;
+    Store.user.phone = phone;
+    Store.user.gender = gender;
+    Store.user.address = address;
+}
+
+class UserTable extends React.Component {
+    componentDidMount(): void {
+        HttpService.get(`/user`)
+            .then(response => {
+                Store.users = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    render() {
+        return (
+            <div className="container">
+                <Caption/>
+                <Table headers={headers} values={Store.users} getData={getUserData} deleteUser={deleteUser}>
+                </Table>
+            </div>
+        )
+    }
+}
 
 export default UserTable
 
