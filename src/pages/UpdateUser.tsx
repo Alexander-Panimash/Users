@@ -25,7 +25,7 @@ function updateUser() {
 const UpdateUser: React.FC = () => {
         return (
             <div className="container">
-                <h2 className="text-center m-1 p-3 ">Изменение информации о пользователе </h2>
+                <h2 className="text-center m-1 p-3 ">Изменение информации пользователя</h2>
                 <form>
                     <div className="form-row">
                         <TextInput name={'Имя'} placeholder={'Введите имя'}
