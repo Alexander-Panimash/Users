@@ -6,8 +6,6 @@ import IUser from "../IUser";
 interface TableProps {
     values: IUser[],
     headers: string [],
-    getData: any,
-    deleteUser: any
 }
 
 const Table: React.FC<TableProps> = (props: TableProps) => {
@@ -19,7 +17,7 @@ const Table: React.FC<TableProps> = (props: TableProps) => {
                 </thead>
                 <tbody>
                 {props.values.map((item, index) => {
-                    return <TableRow values={item} key={item.id} getData={props.getData} deleteUser={props.deleteUser}/>
+                    return <TableRow values={item} key={item.id}/>
                 })}
                 </tbody>
 

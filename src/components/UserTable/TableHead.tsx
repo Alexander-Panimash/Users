@@ -5,12 +5,11 @@ interface IHeadProps {
 }
 
 const TableHead: React.FC<IHeadProps> = (props: IHeadProps) => {
-
     return (
         <tr>
-            {props.headers.map((item) => {
+            {props.headers.map((item, index) => {
                 return (
-                    <th key={Math.random()} className="text-center">{item} </th>)
+                    <th key={index} className="text-center">{item} </th>)
             })}
             <th className="text-center">Редактирование</th>
         </tr>

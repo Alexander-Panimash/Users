@@ -38,3 +38,12 @@ table {
 .text-center {
     text-align: center !important;
 }
+
+.wordBreak {
+    word-break: break-all;
+    white-space: pre-wrap
+}
+
+.tableButton {
+    width: 150px
+}

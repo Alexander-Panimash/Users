@@ -1,15 +1,15 @@
 import React from 'react';
 import TextInput from "../components/AddUser/TextInput";
-import RadioInput from "../components/AddUser/RadioInput";
+import GenderRadioInput from "../components/AddUser/GenderRadioInput";
 import Button from "../components/Button";
 import Store from "../services/store.service";
 import {Link} from "react-router-dom";
 import {changeUser, checkState, cleanState} from "./AddUser";
 import HttpService from "../services/http.service";
 
-function updateUser() {
+function updateUser(this: any) {
     if (checkState()) {
-        HttpService.post(`/${Store.user.id}`, {
+        HttpService.put(`/user/${Store.user.id}`, {
             name: Store.user.name,
             secondName: Store.user.secondName,
             lastName: Store.user.lastName,
@@ -17,9 +17,11 @@ function updateUser() {
             phone: Store.user.phone,
             gender: Store.user.gender,
             address: Store.user.address,
-        })
+        }).then(() => cleanState())
+            .catch(error => {
+                console.log(error);
+            });
     }
-    cleanState();
 }
 
 const UpdateUser: React.FC = () => {
@@ -56,12 +58,12 @@ const UpdateUser: React.FC = () => {
                                    onChange={changeUser}
                                    defaultValue={Store.user.phone}
                         />
-                        <RadioInput name={'Пол'}
-                                    value1name={'Мужской'}
-                                    storeName={'gender'}
-                                    value2name={'Женский'}
-                                    onChange={changeUser}
-                                    checked={Store.user.gender}
+                        <GenderRadioInput name={'Пол'}
+                                          value1name={'Мужской'}
+                                          storeName={'gender'}
+                                          value2name={'Женский'}
+                                          onChange={changeUser}
+                                          checked={Store.user.gender}
                         />
                         <TextInput name={'Страна, город, улица, дом , кв'} placeholder={'Введите адрес'}
                                    storeName='address'

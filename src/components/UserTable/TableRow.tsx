@@ -2,34 +2,39 @@ import React from 'react';
 import Button from '../Button';
 import IUser from "../IUser";
 import {Link} from "react-router-dom";
+import {Consumer} from '../../pages/UserTable';
 
 interface IRowProps {
     values: IUser,
-    getData: any,
-    deleteUser: any
 }
 
 const TableRow: React.FC<IRowProps> = (props: IRowProps) => {
     return (
-        <tr>
-            <td className="text-center align-middle col-12">{props.values.id}</td>
-            <td className="text-center align-middle col-12">{props.values.name}</td>
-            <td className="text-center align-middle col-12">{props.values.email}</td>
-            <td className="text-center align-middle col-12">
-                <Link to={`/user/${props.values.id}`} className='text-decoration-none'
-                      onClick={() => props.getData(props.values)}>
-                    <Button name={`Просмотреть`} styleType={'success'}
-                            style={'btn-block border'}/>
-                </Link>
-                <Link to='/redactUser' className='text-decoration-none' onClick={() => props.getData(props.values)}>
-                    <Button name={'Изменить'} styleType={'info'} style={'btn-block border '}/>
-                </Link>
-                <Link to='/' className='text-decoration-none' onClick={() => props.deleteUser(props.values.id)}>
-                    <Button name={'Удалить'} styleType={'danger'}
-                            style={'btn-block border '}/>
-                </Link>
-            </td>
-        </tr>
+        <Consumer>
+            {(context: any) => (
+                <tr>
+                    <td className="text-center align-middle overflow-hidden wordBreak ">{props.values.id}</td>
+                    <td className="text-center align-middle overflow-hidden wordBreak ">{props.values.name}</td>
+                    <td className="text-center align-middle overflow-hidden wordBreak ">{props.values.email}</td>
+                    <td className="text-center align-middle overflow-hidden wordBreak">
+                        <Link to={`/user/${props.values.id}`} className='text-decoration-none'
+                              onClick={() => context.getUserData(props.values)}>
+                            <Button name={`Просмотреть`} styleType={'success'}
+                                    style={'border tableButton'}/>
+                        </Link>
+                        <Link to='/updateUser' className='text-decoration-none'
+                              onClick={() => context.getUserData(props.values)}>
+                            <Button name={'Изменить'} styleType={'info'} style={'border tableButton'}/>
+                        </Link>
+                        <Link to='/' className='text-decoration-none'
+                              onClick={() => context.deleteUser(props.values.id)}>
+                            <Button name={'Удалить'} styleType={'danger'}
+                                    style={' border tableButton '}/>
+                        </Link>
+                    </td>
+                </tr>
+            )}
+        </Consumer>
     );
 };
 

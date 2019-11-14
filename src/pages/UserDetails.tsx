@@ -1,13 +1,12 @@
 import React from 'react';
 import TextInput from "../components/AddUser/TextInput";
-import RadioInput from "../components/AddUser/RadioInput";
+import GenderRadioInput from "../components/AddUser/GenderRadioInput";
 import Button from "../components/Button";
 import Store from "../services/store.service";
 import {Link} from "react-router-dom";
 
 
 const UserDetails: React.FC = () => {
-
     return (
         <div className="container">
             <h2 className="text-center m-1 p-3 ">Подробная информация пользователя</h2>
@@ -32,12 +31,12 @@ const UserDetails: React.FC = () => {
                                storeName='phone'
                                value={Store.user.phone} disabled={true}
                     />
-                    <RadioInput name={'Пол'}
-                                value1name={'Мужской'}
-                                storeName={'gender'}
-                                value2name={'Женский'}
-                                checked={Store.user.gender}
-                                disabled={true}
+                    <GenderRadioInput name={'Пол'}
+                                      value1name={'Мужской'}
+                                      storeName={'gender'}
+                                      value2name={'Женский'}
+                                      checked={Store.user.gender}
+                                      disabled={true}
                     />
                     <TextInput name={'Страна, город, улица, дом , кв'} placeholder={'Введите адрес'}
                                storeName='address'

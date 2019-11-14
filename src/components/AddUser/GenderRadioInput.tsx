@@ -10,7 +10,7 @@ interface ICheckInput {
     checked?: string
 }
 
-const RadioInput: React.FC<ICheckInput> = (props: ICheckInput) => {
+const GenderRadioInput: React.FC<ICheckInput> = (props: ICheckInput) => {
         const checkInputMale = createRef<HTMLInputElement>();
         const checkInputFemale = createRef<HTMLInputElement>();
 
@@ -51,5 +51,5 @@ const RadioInput: React.FC<ICheckInput> = (props: ICheckInput) => {
     }
 ;
 
-export default RadioInput;
+export default GenderRadioInput;
 
