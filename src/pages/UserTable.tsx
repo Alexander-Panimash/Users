@@ -35,7 +35,7 @@ const UserTable: React.FC = () => {
             .then(res => {
                 console.log(res);
             })
-            .then(() => setRender(render +1))
+            .then(() => setRender(render + 1))
     }
 
     function getUserData(data: IUser) {
