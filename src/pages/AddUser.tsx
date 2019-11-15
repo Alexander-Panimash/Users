@@ -34,25 +34,37 @@ export function changeUser(param: string, value: any) {
     Store.user[param] = value;
 }
 
-function addUser() {
-    if (checkStore()) {
-        HttpService.post(`/user/`, {
-            name: Store.user.name,
-            secondName: Store.user.secondName,
-            lastName: Store.user.lastName,
-            email: Store.user.email,
-            phone: Store.user.phone,
-            gender: Store.user.gender,
-            address: Store.user.address,
-        })
-            .then((res) => console.log(res))
-            .catch(error => {
-                console.log(error);
-            });
-    }
+
+interface IProps {
+    history: any
 }
 
-const AddUser: React.FC = () => {
+const AddUser: React.FC<IProps> = (props: IProps) => {
+    function navigateToUser() {
+        const {history} = props;
+        history.push("/user");
+    }
+
+    function addUser(e: any) {
+        e.preventDefault();
+        if (checkStore()) {
+            HttpService.post(`/user/`, {
+                name: Store.user.name,
+                secondName: Store.user.secondName,
+                lastName: Store.user.lastName,
+                email: Store.user.email,
+                phone: Store.user.phone,
+                gender: Store.user.gender,
+                address: Store.user.address,
+            })
+                .then((res) => console.log(res))
+                .then(() => navigateToUser())
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    }
+
     return (
         <div className="container">
             {cleanStore()}
@@ -96,10 +108,8 @@ const AddUser: React.FC = () => {
                     </div>
                     <div>
                         <div>
-                            <Link to={'/user'}>
-                                <Button name={'Добавить пользователя'} styleType={"primary"}
-                                        function={addUser} style={"btn-sm p-3"}/>
-                            </Link>
+                            <Button name={'Добавить пользователя'} styleType={"primary"}
+                                    function={addUser} style={"btn-sm p-3"}/>
                         </div>
                     </div>
                 </div>
