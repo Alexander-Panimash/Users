@@ -94,7 +94,6 @@ server.put("/user/:id", function (req, res) {
 });
 
 server.delete("/user/:id", function (req, res) {
-    console.log('delete');
     const id = req.params.id;
     db.remove({_id: id}, (err) => {
         if (err) return res.sendStatus(503);
