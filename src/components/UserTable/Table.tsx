@@ -16,7 +16,7 @@ const Table: React.FC<TableProps> = (props: TableProps) => {
                 <TableHead headers={props.headers}/>
                 </thead>
                 <tbody>
-                {props.values.map((item, index) => {
+                {props.values.map((item) => {
                     return <TableRow values={item} key={item.id}/>
                 })}
                 </tbody>

@@ -6,7 +6,8 @@ import Store from "../services/store.service";
 import {Link} from "react-router-dom";
 import HttpService from '../services/http.service'
 
-export function checkState() {
+
+export function checkStore() {
     return (
         Store.user.name &&
         Store.user.secondName &&
@@ -18,7 +19,7 @@ export function checkState() {
     )
 }
 
-export function cleanState() {
+export function cleanStore() {
     Store.user.id = '';
     Store.user.name = '';
     Store.user.secondName = '';
@@ -34,7 +35,7 @@ export function changeUser(param: string, value: any) {
 }
 
 function addUser() {
-    if (checkState()) {
+    if (checkStore()) {
         HttpService.post(`/user/`, {
             name: Store.user.name,
             secondName: Store.user.secondName,
@@ -54,7 +55,7 @@ function addUser() {
 const AddUser: React.FC = () => {
     return (
         <div className="container">
-            {cleanState()}
+            {cleanStore()}
             <h2 className="text-center m-1 p-3 ">Создание нового пользователя</h2>
             <form>
                 <div className="form-row">
@@ -95,9 +96,9 @@ const AddUser: React.FC = () => {
                     </div>
                     <div>
                         <div>
-                            <Link to={'/user'} onClick={addUser}>
+                            <Link to={'/user'}>
                                 <Button name={'Добавить пользователя'} styleType={"primary"}
-                                        style={"btn-sm p-3"}/>
+                                        function={addUser} style={"btn-sm p-3"}/>
                             </Link>
                         </div>
                     </div>

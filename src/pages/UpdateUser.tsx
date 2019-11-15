@@ -4,27 +4,58 @@ import GenderRadioInput from "../components/AddUser/GenderRadioInput";
 import Button from "../components/Button";
 import Store from "../services/store.service";
 import {Link} from "react-router-dom";
-import {changeUser, checkState, cleanState} from "./AddUser";
+import {changeUser, checkStore} from "./AddUser";
 import HttpService from "../services/http.service";
 
-function updateUser(this: any) {
-    if (checkState()) {
-        HttpService.put(`/user/${Store.user.id}`, {
-            name: Store.user.name,
-            secondName: Store.user.secondName,
-            lastName: Store.user.lastName,
-            email: Store.user.email,
-            phone: Store.user.phone,
-            gender: Store.user.gender,
-            address: Store.user.address,
-        }).then(() => cleanState())
-            .catch(error => {
-                console.log(error);
-            });
-    }
+interface IProps {
+    history:any
 }
 
-const UpdateUser: React.FC = () => {
+interface IState {
+    getUpdated: boolean
+}
+
+
+
+class UpdateUser extends React.Component<IProps, IState> {
+
+    constructor(props: any) {
+        super(props);
+        this.updateUser = this.updateUser.bind(this);
+        this.navigateToTable=this.navigateToTable.bind(this);
+        this.state = {
+            getUpdated: false
+        }
+    }
+
+    checkUpdate() {
+
+    }
+
+    navigateToTable() {
+        const {history} = this.props;
+        history.push("/");
+    }
+
+    updateUser(e:any) {
+        e.preventDefault();
+        if (checkStore()) {
+            HttpService.put(`/user/${Store.user.id}`, {
+                name: Store.user.name,
+                secondName: Store.user.secondName,
+                lastName: Store.user.lastName,
+                email: Store.user.email,
+                phone: Store.user.phone,
+                gender: Store.user.gender,
+                address: Store.user.address,
+            }).then(() => this.navigateToTable() )
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    }
+
+    render() {
         return (
             <div className="container">
                 <h2 className="text-center m-1 p-3 ">Изменение информации пользователя</h2>
@@ -82,10 +113,8 @@ const UpdateUser: React.FC = () => {
                         </div>
                         <div>
                             <div>
-                                <Link to={'/'} onClick={updateUser}>
-                                    <Button name={'Сохранить изменения'} styleType={"primary"}
-                                            style={"btn-sm p-3"}/>
-                                </Link>
+                                <Button function={this.updateUser} name={'Сохранить изменения'} styleType={"primary"}
+                                        style={"btn-sm p-3"}/>
                             </div>
                         </div>
                     </div>
@@ -93,6 +122,7 @@ const UpdateUser: React.FC = () => {
             </div>
         );
     }
+}
 ;
 
 export default UpdateUser;

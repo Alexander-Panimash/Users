@@ -1,7 +1,5 @@
 const Store = {
 
-    users: [] as any[],
-
     user: {
         id: '',
         name: '',

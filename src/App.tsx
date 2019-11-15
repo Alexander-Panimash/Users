@@ -14,10 +14,10 @@ const App: React.FC = () => {
                 <span className="navbar-brand mb-0 h1">User table application </span>
             </nav>
             <Switch>
-                <Route exact path='/' component={UserTable}/>
-                <Route path='/addUser' component={AddUser}/>
-                <Route path='/updateUser' component={UpdateUser}/>
-                <Route path='/user' component={UserDetails}/>
+                <Route  exact path='/' component={UserTable} />
+                <Route  path='/addUser' component={AddUser} />
+                <Route  path='/updateUser' component={UpdateUser} />
+                <Route  path='/user' component={UserDetails} />
             </Switch>
         </>)
 };
