@@ -51,13 +51,10 @@ const UserTable: React.FC = () => {
     }
 
     useEffect(() => {
-        isMounted = true;
         HttpService
             .get("/user/")
             .then(response => {
-                if (isMounted) {
-                    setUsers(response.data.data)
-                }
+                setUsers(response.data.data)
             })
             .catch(error => {
                 console.log(error);
@@ -84,9 +81,6 @@ const UserTable: React.FC = () => {
                     }
                 ])
             });
-        return () => {
-            isMounted = false;
-        };
     }, [render]);
 
     return (
