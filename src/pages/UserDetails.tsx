@@ -48,7 +48,7 @@ const UserDetails: React.FC = () => {
                 <div className="form-row mb-3 ">
                     <div className=" mr-auto  ">
                         <Link to='/'>
-                            <Button name={'Отмена'} styleType={'warning'} style={"btn-sm p-3"}/>
+                            <Button name={'Назад'} styleType={'warning'} style={"btn-sm p-3"}/>
                         </Link>
                     </div>
                 </div>

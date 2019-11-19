@@ -1,38 +1,11 @@
 import React from 'react';
+import {Link} from "react-router-dom";
+
 import TextInput from "../components/AddUser/TextInput";
 import GenderRadioInput from "../components/AddUser/GenderRadioInput";
 import Button from "../components/Button";
-import Store from "../services/store.service";
-import {Link} from "react-router-dom";
-import HttpService from '../services/http.service'
 
-
-export function checkStore() {
-    return (
-        Store.user.name &&
-        Store.user.secondName &&
-        Store.user.lastName &&
-        Store.user.email &&
-        Store.user.phone &&
-        Store.user.gender &&
-        Store.user.address
-    )
-}
-
-export function cleanStore() {
-    Store.user.id = '';
-    Store.user.name = '';
-    Store.user.secondName = '';
-    Store.user.lastName = '';
-    Store.user.email = '';
-    Store.user.phone = '';
-    Store.user.gender = '';
-    Store.user.address = '';
-}
-
-export function changeUser(param: string, value: any) {
-    Store.user[param] = value;
-}
+import {addUser, changeUser, checkStore, cleanStore} from '../services/store.service'
 
 
 interface IProps {
@@ -45,58 +18,52 @@ const AddUser: React.FC<IProps> = (props: IProps) => {
         history.push("/user");
     }
 
-    function addUser(e: any) {
-        e.preventDefault();
+    function cleanStorePage() {
+        cleanStore()
+    }
+
+    function changeUserPage(param: string, value: any) {
+        changeUser(param, value)
+    }
+
+    function addUserPage() {
         if (checkStore()) {
-            HttpService.post(`/user/`, {
-                name: Store.user.name,
-                secondName: Store.user.secondName,
-                lastName: Store.user.lastName,
-                email: Store.user.email,
-                phone: Store.user.phone,
-                gender: Store.user.gender,
-                address: Store.user.address,
-            })
-                .then((res) => console.log(res))
-                .then(() => navigateToUser())
-                .catch(error => {
-                    console.log(error);
-                });
+            addUser().then(() => navigateToUser());
         }
     }
 
     return (
         <div className="container">
-            {cleanStore()}
+            {cleanStorePage()}
             <h2 className="text-center m-1 p-3 ">Создание нового пользователя</h2>
             <form>
                 <div className="form-row">
                     <TextInput name={'Имя'} placeholder={'Введите имя'}
                                storeName='name'
-                               onChange={changeUser}/>
+                               onChange={changeUserPage}/>
                     <TextInput name={'Фамилия'} placeholder={"Введите фамилию"}
                                storeName='secondName'
-                               onChange={changeUser}/>
+                               onChange={changeUserPage}/>
                     <TextInput name={'Отчество'} placeholder={"Введите отчество"}
                                storeName='lastName'
-                               onChange={changeUser}/>
+                               onChange={changeUserPage}/>
                 </div>
                 <div className="form-row">
                     <TextInput name={'Email'} placeholder={'Введите Email'}
                                storeName='email'
-                               onChange={changeUser}/>
+                               onChange={changeUserPage}/>
                     <TextInput name={'Номер телефона'} placeholder={'Введите номер телефона'}
                                storeName='phone'
-                               onChange={changeUser}/>
+                               onChange={changeUserPage}/>
                     <GenderRadioInput name={'Пол'}
                                       value1name={'Мужской'}
                                       storeName={'gender'}
                                       value2name={'Женский'}
-                                      onChange={changeUser}/>
+                                      onChange={changeUserPage}/>
                     <TextInput name={'Страна, город, улица, дом , кв'} placeholder={'Введите адрес'}
                                storeName='address'
                                styles={'col-md-12 mb-3'}
-                               onChange={changeUser}/>
+                               onChange={changeUserPage}/>
                 </div>
                 <div className="form-group">
                 </div>
@@ -109,7 +76,7 @@ const AddUser: React.FC<IProps> = (props: IProps) => {
                     <div>
                         <div>
                             <Button name={'Добавить пользователя'} styleType={"primary"}
-                                    function={addUser} style={"btn-sm p-3"}/>
+                                    function={addUserPage} style={"btn-sm p-3"}/>
                         </div>
                     </div>
                 </div>

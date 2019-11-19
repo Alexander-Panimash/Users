@@ -1,16 +1,14 @@
 import React from 'react';
+import {Link} from "react-router-dom";
+
+import Button from "../components/Button";
 import TextInput from "../components/AddUser/TextInput";
 import GenderRadioInput from "../components/AddUser/GenderRadioInput";
-import Button from "../components/Button";
-import Store from "../services/store.service";
-import {Link} from "react-router-dom";
-import {changeUser, checkStore} from "./AddUser";
-import HttpService from "../services/http.service";
+import Store, {changeUser, updateUser} from "../services/store.service";
 
 interface IProps {
     history: any
 }
-
 
 const UpdateUser: React.FC<IProps> = (props: IProps) => {
     function navigateToTable() {
@@ -18,22 +16,13 @@ const UpdateUser: React.FC<IProps> = (props: IProps) => {
         history.push("/");
     }
 
-    function updateUser(e: any) {
-        e.preventDefault();
-        if (checkStore()) {
-            HttpService.put(`/user/${Store.user.id}`, {
-                name: Store.user.name,
-                secondName: Store.user.secondName,
-                lastName: Store.user.lastName,
-                email: Store.user.email,
-                phone: Store.user.phone,
-                gender: Store.user.gender,
-                address: Store.user.address,
-            }).then(() => navigateToTable())
-                .catch(error => {
-                    console.log(error);
-                });
-        }
+    function changeUserPage(param: string, value: any) {
+        changeUser(param, value)
+    }
+
+    function updateUserPage() {
+        updateUser().then(() => navigateToTable()
+        );
     }
 
     return (
@@ -44,42 +33,42 @@ const UpdateUser: React.FC<IProps> = (props: IProps) => {
                     <TextInput name={'Имя'} placeholder={'Введите имя'}
                                storeName='name'
                                defaultValue={Store.user.name}
-                               onChange={changeUser}
+                               onChange={changeUserPage}
                     />
                     <TextInput name={'Фамилия'} placeholder={"Введите фамилию"}
                                storeName='secondName'
-                               onChange={changeUser}
+                               onChange={changeUserPage}
                                defaultValue={Store.user.secondName}
                     />
 
                     <TextInput name={'Отчество'} placeholder={"Введите отчество"}
                                storeName='lastName'
-                               onChange={changeUser}
+                               onChange={changeUserPage}
                                defaultValue={Store.user.lastName}
                     />
                 </div>
                 <div className="form-row">
                     <TextInput name={'Email'} placeholder={'Введите Email'}
                                storeName='email'
-                               onChange={changeUser}
+                               onChange={changeUserPage}
                                defaultValue={Store.user.email}
                     />
                     <TextInput name={'Номер телефона'} placeholder={'Введите номер телефона'}
                                storeName='phone'
-                               onChange={changeUser}
+                               onChange={changeUserPage}
                                defaultValue={Store.user.phone}
                     />
                     <GenderRadioInput name={'Пол'}
                                       value1name={'Мужской'}
                                       storeName={'gender'}
                                       value2name={'Женский'}
-                                      onChange={changeUser}
+                                      onChange={changeUserPage}
                                       checked={Store.user.gender}
                     />
                     <TextInput name={'Страна, город, улица, дом , кв'} placeholder={'Введите адрес'}
                                storeName='address'
                                styles={'col-md-12 mb-3'}
-                               onChange={changeUser}
+                               onChange={changeUserPage}
                                defaultValue={Store.user.address}
                     />
                 </div>
@@ -93,7 +82,7 @@ const UpdateUser: React.FC<IProps> = (props: IProps) => {
                     </div>
                     <div>
                         <div>
-                            <Button function={updateUser} name={'Сохранить изменения'} styleType={"primary"}
+                            <Button function={updateUserPage} name={'Сохранить изменения'} styleType={"primary"}
                                     style={"btn-sm p-3"}/>
                         </div>
                     </div>
