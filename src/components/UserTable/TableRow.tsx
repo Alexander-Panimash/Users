@@ -11,7 +11,6 @@ interface IRowProps {
 
 
 const TableRow: React.FC<IRowProps> = (props: IRowProps) => {
-
     const context = useContext(MyContext);
 
     return (

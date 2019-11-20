@@ -2,7 +2,6 @@ import IUser from "../components/IUser";
 import HttpService from "./http.service";
 import {UserMapper} from "../mappers/UserMapper";
 
-
 const Store = {
     user: {
         id: '',
