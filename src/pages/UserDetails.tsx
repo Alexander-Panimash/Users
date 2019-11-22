@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 
 
 const UserDetails: React.FC = () => {
+
     return (
         <div className="container">
             <h2 className="text-center m-1 p-3 ">Подробная информация пользователя</h2>

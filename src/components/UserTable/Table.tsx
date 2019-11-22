@@ -4,8 +4,9 @@ import TableRow from './TableRow'
 import IUser from "../IUser";
 
 interface TableProps {
-    values: IUser[],
+    values: IUser[]
     headers: string [],
+    getUserTable: (item: IUser) => void
 }
 
 const Table: React.FC<TableProps> = (props: TableProps) => {
@@ -17,10 +18,9 @@ const Table: React.FC<TableProps> = (props: TableProps) => {
                 </thead>
                 <tbody>
                 {props.values.map((item) => {
-                    return <TableRow values={item} key={item.id}/>
+                    return <TableRow values={item} key={item.id} getUserTable={props.getUserTable}/>
                 })}
                 </tbody>
-
             </table>
         </div>
     );

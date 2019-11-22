@@ -1,64 +1,53 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Caption from "../components/UserTable/Caption";
 import Table from "../components/UserTable/Table";
 import {deleteUser, getUser, getUsersData} from "../services/store.service";
 import IUser from "../components/IUser";
-import {connect} from "react-redux";
-import {store} from "../store/configureStore";
-import {addUsers} from "../actions/actions";
+import {addUsers} from "../store/users/actions";
+import {useEventObserver} from "../customhooks/eventObserveDispatch";
+import {useDispatch, useSelector} from "react-redux";
 
-
-export const MyContext = React.createContext({
-    getUserRow(item: IUser) {
-    },
-    deleteUserRow(idToDelete: string) {
-    }
-});
-const Provider = MyContext.Provider;
 
 const UserTable: React.FC = () => {
-        const [users, setUsers] = useState([] as IUser[]);
+    const counter = useSelector((state: any) => (state.usersState.users));
+    const dispatch = useDispatch();
 
-        const tableHeaders: string[] = [
-            'id',
-            'Имя',
-            'email',
-        ];
+    const tableHeaders: string[] = [
+        'id',
+        'Имя',
+        'email',
+    ];
 
-        function getUserTable(item: IUser) {
-            getUser(item);
-        }
+    const tableRef = React.createRef<HTMLDivElement>();
 
-        function deleteUserTable(idToDelete: string) {
-            deleteUser(idToDelete)
-                .then(() => getUsersData())
-                .then(((response) => setUsers(response)))
-                .then((response) => {
-                    store.dispatch(addUsers(response))
-                })
-        }
-
-
-        useEffect(() => {
-            getUsersData().then((response) => setUsers(response))
-        }, []);
-
-        return (
-            <Provider value={{getUserRow: getUserTable, deleteUserRow: deleteUserTable}}>
-                <div className="container">
-                    <Caption/>
-                    <Table headers={tableHeaders} values={users}>
-                    </Table>
-                </div>
-            </Provider>
-        )
-    }
-;
-const mapStateToProps = function (store: { usersState: { users: []; }; } ) {
-    return {
-        users: store.usersState.users
+    const getUserTable = (item: IUser) => {
+        getUser(item);
     };
+    
+    const deleteUserTable = (idToDelete: string) => {
+        deleteUser(idToDelete)
+            .then(() => getUsersData())
+            .then((response) => dispatch(addUsers(response)))
+    };
+    useEffect(() => {
+        getUsersData().then(
+            (response) => dispatch(addUsers(response))
+        )
+    }, []);
+
+    useEventObserver((event: any) => {
+        deleteUserTable(event.detail);
+    }, 'deleteDataButton', tableRef);
+
+    return (
+        <div ref={tableRef} className="container">
+            <Caption/>
+            <Table headers={tableHeaders} values={counter} getUserTable={getUserTable}>
+            </Table>
+        </div>
+    )
 };
-export default connect(mapStateToProps)(UserTable)
+
+export default UserTable
 
 
