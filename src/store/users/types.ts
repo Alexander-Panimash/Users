@@ -1,5 +1,5 @@
 import IUser from "../../components/IUser";
-import {addUsers, getOneUser} from "./actions";
+import {addUsers} from "./actions";
 
 export interface UsersState {
      users: IUser[]

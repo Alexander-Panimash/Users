@@ -2,19 +2,6 @@ import IUser from "../components/IUser";
 import HttpService from "./http.service";
 import {UserMapper} from "../mappers/UserMapper";
 
-const Store = {
-    user: {
-        id: '',
-        name: '',
-        secondName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        gender: '',
-        address: '',
-    },
-};
-
 export function getUsersData() {
     return HttpService
         .get("/user/")
@@ -48,27 +35,28 @@ export function getUsersData() {
         })
 }
 
-export function getUser(data: IUser) {
-    let {id, name, secondName, lastName, email, phone, gender, address} = data;
-    Store.user.name = name;
-    Store.user.id = id;
-    Store.user.secondName = secondName;
-    Store.user.lastName = lastName;
-    Store.user.email = email;
-    Store.user.phone = phone;
-    Store.user.gender = gender;
-    Store.user.address = address;
+
+export function getUserFromDb(userID: string) {
+    return HttpService
+        .get(`/user/${userID}`)
+        .then(response => {
+            return (response.data)
+        })
+        .catch(error => {
+            console.log(error);
+        })
 }
 
-export function addUser() {
+
+export function addUser(user: IUser) {
         return HttpService.post(`/user/`, {
-            name: Store.user.name,
-            secondName: Store.user.secondName,
-            lastName: Store.user.lastName,
-            email: Store.user.email,
-            phone: Store.user.phone,
-            gender: Store.user.gender,
-            address: Store.user.address,
+            name: user.name,
+            secondName: user.secondName,
+            lastName: user.lastName,
+            email: user.email,
+            phone: user.phone,
+            gender: user.gender,
+            address: user.address,
         })
             .then((res) => console.log(res))
             .catch(error => {
@@ -83,46 +71,29 @@ export function deleteUser(idToDelete: string) {
         })
 }
 
-export function updateUser() {
-        return HttpService.put(`/user/${Store.user.id}`, {
-            name: Store.user.name,
-            secondName: Store.user.secondName,
-            lastName: Store.user.lastName,
-            email: Store.user.email,
-            phone: Store.user.phone,
-            gender: Store.user.gender,
-            address: Store.user.address,
+export function updateUser(data: IUser) {
+    return HttpService.put(`/user/${data.id}`, {
+        name: data.name,
+        secondName: data.secondName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        gender: data.gender,
+        address: data.address,
         }).then(response => console.log(response))
             .catch(error => {
                 console.log(error);
             });
 }
 
-export function checkStore() {
+export function checkStore(user: IUser) {
     return (
-        Store.user.name &&
-        Store.user.secondName &&
-        Store.user.lastName &&
-        Store.user.email &&
-        Store.user.phone &&
-        Store.user.gender &&
-        Store.user.address
+        user.name &&
+        user.secondName &&
+        user.lastName &&
+        user.email &&
+        user.phone &&
+        user.gender &&
+        user.address
     )
 }
-
-export function cleanStore() {
-    Store.user.id = '';
-    Store.user.name = '';
-    Store.user.secondName = '';
-    Store.user.lastName = '';
-    Store.user.email = '';
-    Store.user.phone = '';
-    Store.user.gender = '';
-    Store.user.address = '';
-}
-
-export function changeUser(param: string, value: any) {
-    Store.user[param] = value;
-}
-
-export default Store;

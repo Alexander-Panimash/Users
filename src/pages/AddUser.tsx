@@ -5,7 +5,8 @@ import TextInput from "../components/AddUser/TextInput";
 import GenderRadioInput from "../components/AddUser/GenderRadioInput";
 import Button from "../components/Button";
 
-import {addUser, changeUser, checkStore, cleanStore} from '../services/store.service'
+import {addUser, checkStore} from '../services/store.service'
+import {useDispatch, useSelector} from "react-redux";
 
 
 interface IProps {
@@ -13,39 +14,40 @@ interface IProps {
 }
 
 const AddUser: React.FC<IProps> = (props: IProps) => {
+    const user = useSelector((state: any) => (state.userState.user));
+    const dispatch = useDispatch();
+
     function navigateToUser() {
         const {history} = props;
         history.push("/user");
     }
 
-    function cleanStorePage() {
-        cleanStore()
-    }
-
     function changeUserPage(param: string, value: any) {
-        changeUser(param, value)
+        dispatch({type: "CHANGE_USER", payload: {param, value}});
     }
 
     function addUserPage() {
-        if (checkStore()) {
-            addUser().then(() => navigateToUser());
+        if (checkStore(user)) {
+            addUser(user).then(() => navigateToUser());
         }
     }
 
     return (
         <div className="container">
-            {cleanStorePage()}
             <h2 className="text-center m-1 p-3 ">Создание нового пользователя</h2>
             <form>
                 <div className="form-row">
                     <TextInput name={'Имя'} placeholder={'Введите имя'}
                                storeName='name'
+                               defaultValue={''}
                                onChange={changeUserPage}/>
                     <TextInput name={'Фамилия'} placeholder={"Введите фамилию"}
                                storeName='secondName'
+                               defaultValue={''}
                                onChange={changeUserPage}/>
                     <TextInput name={'Отчество'} placeholder={"Введите отчество"}
                                storeName='lastName'
+                               defaultValue={''}
                                onChange={changeUserPage}/>
                 </div>
                 <div className="form-row">

@@ -10,11 +10,10 @@ export function useEventObserver(handler: (event: any) => void, eventName: strin
                 ref.current.removeEventListener(eventName, handler);
             }
         }
-    }, []);
+    }, [eventName, handler, ref]);
 }
 
 export function useEventDispatcher(eventName: string, ref: RefObject<HTMLElement>) {
-
     return (data: any) => {
         if (ref.current) {
             ref.current.dispatchEvent(new CustomEvent(eventName, {

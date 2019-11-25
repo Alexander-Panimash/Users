@@ -20,6 +20,15 @@ const userReducer = (state = initialUsersState, action: UsersActionTypes): Users
             return ({
                 user: action.payload
             });
+        case "CHANGE_USER":
+            return ({
+                user: {
+                    ...state.user,
+                    [action.payload.param]: action.payload.value,
+                }
+            });
+        case "RESET_USER":
+            return state = initialUsersState;
         default :
             return state
     }

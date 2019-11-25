@@ -26,7 +26,6 @@ server.use(cors());
 server.use(bodyParser.json());
 
 server.get("/user/", function (req, res) {
-
     db.find({}, (err, data) => {
         if (err) return res.sendStatus(503);
         for (let i = 0; i < data.length; i++) {
@@ -39,8 +38,10 @@ server.get("/user/", function (req, res) {
 
 server.get("/user/:id", function (req, res) {
     const id = req.params.id;
+
     db.findOne({_id: id}, function (err, user) {
         if (err) return res.status(503);
+        replaceId(user);
         res.send(user);
     });
 });

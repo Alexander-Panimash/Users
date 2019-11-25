@@ -1,28 +1,32 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-
 import Button from "../components/Button";
 import TextInput from "../components/AddUser/TextInput";
 import GenderRadioInput from "../components/AddUser/GenderRadioInput";
-import Store, {changeUser, updateUser} from "../services/store.service";
+import {updateUser} from "../services/store.service";
+import {useDispatch, useSelector} from "react-redux";
 
 interface IProps {
     history: any
 }
 
 const UpdateUser: React.FC<IProps> = (props: IProps) => {
+    const user = useSelector((state: any) => (state.userState.user));
+    const dispatch = useDispatch();
+
     function navigateToTable() {
         const {history} = props;
         history.push("/");
+        dispatch({type: "RESET_USER"})
     }
 
     function changeUserPage(param: string, value: any) {
-        changeUser(param, value)
+        dispatch({type: "CHANGE_USER", payload: {param, value}})
     }
 
     function updateUserPage() {
-        updateUser().then(() => navigateToTable()
-        );
+        updateUser(user).then(() => navigateToTable()
+        )
     }
 
     return (
@@ -32,44 +36,44 @@ const UpdateUser: React.FC<IProps> = (props: IProps) => {
                 <div className="form-row">
                     <TextInput name={'Имя'} placeholder={'Введите имя'}
                                storeName='name'
-                               defaultValue={Store.user.name}
+                               defaultValue={user.name}
                                onChange={changeUserPage}
                     />
                     <TextInput name={'Фамилия'} placeholder={"Введите фамилию"}
                                storeName='secondName'
                                onChange={changeUserPage}
-                               defaultValue={Store.user.secondName}
+                               defaultValue={user.secondName}
                     />
 
                     <TextInput name={'Отчество'} placeholder={"Введите отчество"}
                                storeName='lastName'
                                onChange={changeUserPage}
-                               defaultValue={Store.user.lastName}
+                               defaultValue={user.lastName}
                     />
                 </div>
                 <div className="form-row">
                     <TextInput name={'Email'} placeholder={'Введите Email'}
                                storeName='email'
                                onChange={changeUserPage}
-                               defaultValue={Store.user.email}
+                               defaultValue={user.email}
                     />
                     <TextInput name={'Номер телефона'} placeholder={'Введите номер телефона'}
                                storeName='phone'
                                onChange={changeUserPage}
-                               defaultValue={Store.user.phone}
+                               defaultValue={user.phone}
                     />
                     <GenderRadioInput name={'Пол'}
                                       value1name={'Мужской'}
                                       storeName={'gender'}
                                       value2name={'Женский'}
                                       onChange={changeUserPage}
-                                      checked={Store.user.gender}
+                                      checked={user.gender}
                     />
                     <TextInput name={'Страна, город, улица, дом , кв'} placeholder={'Введите адрес'}
                                storeName='address'
                                styles={'col-md-12 mb-3'}
                                onChange={changeUserPage}
-                               defaultValue={Store.user.address}
+                               defaultValue={user.address}
                     />
                 </div>
                 <div className="form-group">

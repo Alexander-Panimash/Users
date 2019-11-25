@@ -6,7 +6,7 @@ import IUser from "../IUser";
 interface TableProps {
     values: IUser[]
     headers: string [],
-    getUserTable: (item: IUser) => void
+    getUserTable: (userID: string, navLink: string) => void
 }
 
 const Table: React.FC<TableProps> = (props: TableProps) => {

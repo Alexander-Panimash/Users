@@ -12,11 +12,12 @@ interface IInput {
 }
 
 const TextInput: React.FC<IInput> = (props: IInput) => {
+
     const textInput = createRef<HTMLInputElement>();
 
     function onChange() {
         if (textInput.current !== null) {
-            props.onChange(props.storeName, textInput.current.value);
+            props.onChange(props.storeName, textInput.current.value)
         }
     }
 
